@@ -1,5 +1,4 @@
 #include "token.h"
-#include "cstdlib"
 
 std::ostream& operator<<(std::ostream &strm, const Token &tok)
 {

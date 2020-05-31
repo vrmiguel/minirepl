@@ -2,13 +2,13 @@
 #include "interp.h"
 #include "_os.h"
 
+bool is_verbose;
+
 int main(int argc, char ** argv)
 {
-    if (argc > 1)
-        CLIInputs(argc, argv);
+    CLIInputs(argc, argv);
 
-    std::ios_base::sync_with_stdio(false);
-
+    cout << "Verbose: " << is_verbose << '\n';
     SignalHandler sighandler;       // Defined in _os.h
 
     for (;;)
@@ -18,7 +18,8 @@ int main(int argc, char ** argv)
         std::getline(cin, line);
         Interpreter interp = Interpreter(line);
         Token ans = interp.expr();
-        putchar('\n');
+        if (is_verbose)
+            putchar('\n');
     }
     return 0;
 }

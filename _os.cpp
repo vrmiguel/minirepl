@@ -25,19 +25,23 @@ SignalHandler::SignalHandler()
 
 CLIInputs::CLIInputs(int argc, char **argv)
 {
-    for(short unsigned int i = 1; i < argc; i++)
+    if(argc > 1)
     {
-        string s_argv = argv[i];
-        if (!s_argv.compare("-h") || !s_argv.compare("--help"))
+        for(short unsigned int i = 1; i < argc; i++)
         {
-            printf("miniREPL -- github.com/vrmiguel/minirepl\n");
-            printf("%-20s\tObtain help.\n", "-h, --help");
-            printf("%-20s\tShows additional execution data.\n", "-v, --verbose");
-            exit(0);
-        }
-        if (!s_argv.compare("-v") || !s_argv.compare("--verbose"))
-        {
-            printf("Executing in verbose mode.\n");
+            string s_argv = argv[i];
+            if (!s_argv.compare("-h") || !s_argv.compare("--help"))
+            {
+                printf("miniREPL -- github.com/vrmiguel/minirepl\n");
+                printf("%-20s\tObtain help.\n", "-h, --help");
+                printf("%-20s\tShows additional execution data.\n", "-v, --verbose");
+                exit(0);
+            }
+            if (!s_argv.compare("-v") || !s_argv.compare("--verbose"))
+            {
+                printf("Executing in verbose mode.\n");
+                is_verbose = true;
+            }
         }
     }
 }

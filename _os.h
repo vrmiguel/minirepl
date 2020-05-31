@@ -7,7 +7,8 @@
 using std::cout;
 using std::string;
 
-// bool no_hangup;
+//bool no_hangup;
+extern bool is_verbose;
 
 class SignalHandler
 {
@@ -19,6 +20,7 @@ public:
 class CLIInputs
 {
 public:
+    bool is_verbose;
     CLIInputs(int argc, char ** argv);
 };
 

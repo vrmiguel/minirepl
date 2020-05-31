@@ -1,4 +1,5 @@
 #include "interp.h"
+#include "_os.h"
 
 inline bool isdigit(char c)
 {
@@ -68,7 +69,8 @@ Token Interpreter::expr()
     for(;;)
     {
         Token tok = get_token();
-        cout << tok << ' ';
+        if(is_verbose)
+            cout << tok << ' ';
         if(tok.var_type == EOL || tok.var_type == EOFile)
             break;
         created_tokens.push_back(tok);
