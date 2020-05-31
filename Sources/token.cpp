@@ -50,6 +50,11 @@ bool operator==(const Token t1, const Token t2)
     return t1.var_type == t2.var_type && t1.var_value == t2.var_value;
 }
 
+bool contains(vector<Token> tokens, Token t)
+{
+    return std::count(tokens.begin(), tokens.end(), t);
+}
+
 inline bool is_valid(int var_type)
 {
     return (var_type > -1) && (var_type < TOKEN_TYPE_COUNT);
@@ -62,7 +67,7 @@ Token::Token(int var_type, string var_value)
         this->var_type  = var_type;
         this->var_value = var_value;
     } else {
-        cerr << "Tipo " << var_type << "não é válido.";
+        cerr << "The type" << var_type << "is not valid.";
         std::exit(1);
     }
 }
@@ -75,7 +80,7 @@ Token::Token(int var_type, char var_value)
         this->var_value = string(1, var_value);
     } else
     {
-        cerr << "Tipo " << var_type << "não é válido.";
+        cerr << "The type" << var_type << "is not valid.";
         std::exit(1);
     }
 }

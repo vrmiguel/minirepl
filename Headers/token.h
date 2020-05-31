@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 using std::string;
 using std::vector;
@@ -32,5 +33,7 @@ public:
 };
 
 std::ostream& operator<<(std::ostream &strm, const Token &tok);
+bool operator==(const Token t1, const Token t2);
+bool contains(vector<Token> tokens, Token t);
 
 #endif // TOKEN_H

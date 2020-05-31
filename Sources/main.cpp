@@ -2,13 +2,11 @@
 #include "Headers/interp.h"
 #include "Headers/_os.h"
 
-bool is_verbose;
-
 int main(int argc, char ** argv)
 {
+    cout << "miniREPL -- github.com/vrmiguel/minirepl\n";
     CLIInputs(argc, argv);
 
-    cout << "Verbose: " << is_verbose << '\n';
     SignalHandler sighandler;       // Defined in _os.h
 
     for (;;)
@@ -16,8 +14,9 @@ int main(int argc, char ** argv)
         string line;
         cout << ">>> ";
         std::getline(cin, line);
-        Interpreter interp = Interpreter(line);
+        Interpreter interp (line);
         Token ans = interp.expr();
+        cout << ans.var_value << '\n';
         if (is_verbose)
             putchar('\n');
     }

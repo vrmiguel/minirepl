@@ -12,6 +12,7 @@ class Interpreter
 public:
     Interpreter(string text);
     Token expr();
+    void eval_arith(vector<Token> &tokens, int optype, int index);
 };
 
 #endif // INTERP_H

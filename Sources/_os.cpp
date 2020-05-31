@@ -1,5 +1,7 @@
 #include "Headers/_os.h"
 
+bool is_verbose;
+
 void signal_handler(int s)
 {
     if (s==SIGINT)
@@ -32,7 +34,6 @@ CLIInputs::CLIInputs(int argc, char **argv)
             string s_argv = argv[i];
             if (!s_argv.compare("-h") || !s_argv.compare("--help"))
             {
-                printf("miniREPL -- github.com/vrmiguel/minirepl\n");
                 printf("%-20s\tObtain help.\n", "-h, --help");
                 printf("%-20s\tShows additional execution data.\n", "-v, --verbose");
                 exit(0);

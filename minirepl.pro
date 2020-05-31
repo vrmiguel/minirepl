@@ -13,8 +13,4 @@ HEADERS += \
     Headers/_os.h \
     Headers/interp.h \
     Headers/token.h \
-    Headers/tokentypes.h \
-    _os.h \
-    interp.h \
-    token.h \
-    tokentypes.h
+    Headers/tokentypes.h
