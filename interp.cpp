@@ -53,7 +53,6 @@ Token Interpreter::get_token()
         return Token(MULT, cur_char);
     }
 
-
     if (cur_char == '/')
     {
         pos++;
@@ -75,6 +74,8 @@ Token Interpreter::expr()
             break;
         created_tokens.push_back(tok);
     }
+
+
 
     return Token(INTEGER, "2"); // placeholder
 }

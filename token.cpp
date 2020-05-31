@@ -40,11 +40,15 @@ std::ostream& operator<<(std::ostream &strm, const Token &tok)
         break;
 
         default:
-            vartype ="UNKNOWN";    // Control really shouldn't reach here
+            vartype ="UNKNOWN";    // Control really shouldn't reach this point
         break;
     }
-
     return strm << "Token(" << vartype << ", " << tok.var_value << ")";
+}
+
+bool operator==(const Token t1, const Token t2)
+{
+    return t1.var_type == t2.var_type && t1.var_value == t2.var_value;
 }
 
 inline bool is_valid(int var_type)
