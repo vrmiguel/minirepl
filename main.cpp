@@ -1,34 +1,20 @@
 #include "token.h"
 #include "interp.h"
-#include <csignal>
+#include "_os.h"
 
-using std::cout;
-using std::cin;
-
-void signal_handler(int s)
+int main(int argc, char ** argv)
 {
-    if (s==2)
-        cout << "\nSIGINT (Ctrl+C) received. Code " << s << ".\n";
-    exit(s);
-}
+    if (argc > 1)
+        CLIInputs(argc, argv);
 
+    std::ios_base::sync_with_stdio(false);
 
-int main(void)
-{
-    struct sigaction sigIntHandler;
-
-    sigIntHandler.sa_handler = signal_handler;
-    sigemptyset(&sigIntHandler.sa_mask);
-    sigIntHandler.sa_flags = 0;
-
-    sigaction(SIGINT, &sigIntHandler, NULL);
+    SignalHandler sighandler;       // Defined in _os.h
 
     for (;;)
     {
-
-
         string line;
-        cout << "REPL >>> ";
+        cout << ">>> ";
         std::getline(cin, line);
         Interpreter interp = Interpreter(line);
         Token ans = interp.expr();

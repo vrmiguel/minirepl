@@ -9,7 +9,6 @@ Interpreter::Interpreter(string text)
 {
     this->text      = text;
     this->pos       = 0;
-
 }
 
 Token Interpreter::get_token()
@@ -74,8 +73,6 @@ Token Interpreter::expr()
             break;
         created_tokens.push_back(tok);
     }
-
-
 
     return Token(INTEGER, "2"); // placeholder
 }
