@@ -1,5 +1,5 @@
-#include "interp.h"
-#include "_os.h"
+#include "Headers/interp.h"
+#include "Headers/_os.h"
 
 inline bool isdigit(char c)
 {

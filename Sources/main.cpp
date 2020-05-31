@@ -1,6 +1,6 @@
-#include "token.h"
-#include "interp.h"
-#include "_os.h"
+#include "Headers/token.h"
+#include "Headers/interp.h"
+#include "Headers/_os.h"
 
 bool is_verbose;
 
