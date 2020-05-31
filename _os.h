@@ -20,7 +20,6 @@ public:
 class CLIInputs
 {
 public:
-    bool is_verbose;
     CLIInputs(int argc, char ** argv);
 };
 
