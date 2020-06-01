@@ -11,6 +11,11 @@ inline bool isdigit(char c)
     return (c > 47 && c < 58);
 }
 
+inline bool ischar(char c)
+{
+    return (c > 64 && c < 91) || (c > 96 && c < 123);
+}
+
 Interpreter::Interpreter(string text)
 {
     this->text      = text;
@@ -59,11 +64,18 @@ Token Interpreter::get_token()
         return Token(SPACE, cur_char);
     }
 
+    if (cur_char == '=')
+    {
+        pos++;
+        return Token(ATTRIB, cur_char);
+    }
+
     if (cur_char == '^')
     {
         pos++;
         return Token(EXP, cur_char);
     }
+
 //    if (cur_char == '(')
 //    {
 //        pos++;
@@ -91,6 +103,24 @@ Token Interpreter::get_token()
             cout << "Exception " << oor.what() << " catched.";
             pos++;
             return Token(INTEGER, intval);
+        }
+    }
+
+    if (ischar(cur_char))
+    {
+        string varname (1, cur_char);
+        try
+        {
+            while(ischar(text[pos+1]))
+                varname = varname + text[++pos];
+            pos++;
+            return Token(STRING, varname);
+        }
+        catch (const std::out_of_range& oor)
+        {
+            cout << "Exception " << oor.what() << " catched.";
+            pos++;
+            return Token(STRING, varname);
         }
     }
 
@@ -201,6 +231,8 @@ void Interpreter::perform_exp(vector<Token> &tokens)
 Token Interpreter::expr()
 {
     vector<Token> created_tokens;
+    string var_name;
+
     for(;;)
     {
         Token tok = get_token();
@@ -212,6 +244,29 @@ Token Interpreter::expr()
             break;
     }
 
+        // Verifies if a string was read
+    if (created_tokens[0].var_type == STRING)
+    {
+            // Verifies if there was an attribution of value
+        if (created_tokens[1].var_type != ATTRIB)
+        {
+            if(created_tokens.size() > 2)
+            {
+                cerr << "Syntax error. Missing \'=\'\n";
+                return Token(EOL, "");
+            }
+            Variable res = var_find(created_tokens[0].var_value);
+            if (!res.var_value.compare("nan"))  // Variable not found
+            {
+                cerr << "Variable " << var_name << " is not defined.\n";
+                return Token(EOL, "");
+            }
+            return Token(INTEGER, res.var_value);   // Variable found
+        }
+        var_name = created_tokens[0].var_value;
+        created_tokens.erase(created_tokens.begin());
+        created_tokens.erase(created_tokens.begin());
+    }
 
     perform_unary_minus(created_tokens);
     perform_exp(created_tokens);
@@ -222,6 +277,9 @@ Token Interpreter::expr()
         // Does addition and subtraction operations, if they exist
     perform_add_and_subtraction(created_tokens);
 
-
+    if (!var_name.empty())
+    {
+        var_list.push_back(Variable(var_name, created_tokens[0].var_value));
+    }
     return created_tokens[0]; // placeholder
 }

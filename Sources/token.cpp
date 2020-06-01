@@ -38,6 +38,10 @@ std::ostream& operator<<(std::ostream &strm, const Token &tok)
             vartype = "EOF";
         break;
 
+        case STRING:
+            vartype = "STRING";
+        break;
+
         default:
             vartype = "UNKNOWN";    // Control really shouldn't reach this point
         break;

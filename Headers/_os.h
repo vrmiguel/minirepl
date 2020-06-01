@@ -3,6 +3,7 @@
 #include <csignal>
 #include <string>
 #include <iostream>
+#include <vector>
 
 using std::cout;
 using std::string;
@@ -30,5 +31,16 @@ public:
      */
     CLIInputs(int argc, char ** argv);
 };
+
+class Variable
+{
+public:
+    string var_name;
+    string var_value;
+    Variable(string var_name, string var_value);
+};
+
+extern std::vector<Variable> var_list;
+Variable var_find(string var_name);
 
 #endif // _OS_H

@@ -10,8 +10,10 @@
 #define MULT      6
 #define DIV       7
 #define EXP       8
+#define STRING    9
+#define ATTRIB    10
 //#define OPENPAR   8
 //#define CLOSEPAR  9
-#define TOKEN_TYPE_COUNT 9
+#define TOKEN_TYPE_COUNT 11
 
 #endif // TYPES_H

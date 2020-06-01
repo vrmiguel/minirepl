@@ -1,6 +1,7 @@
 #include "Headers/_os.h"
 
 bool is_verbose;
+std::vector<Variable> var_list;
 
 void signal_handler(int s)
 {
@@ -45,4 +46,20 @@ CLIInputs::CLIInputs(int argc, char **argv)
             }
         }
     }
+}
+
+Variable::Variable(string var_name, string var_value)
+{
+    this->var_name  = var_name;
+    this->var_value = var_value;
+}
+
+Variable var_find(string var_name)
+{
+    for(Variable var : var_list)
+    {
+        if(!var_name.compare(var.var_name))
+            return var;
+    }
+    return Variable(var_name, "nan");
 }
