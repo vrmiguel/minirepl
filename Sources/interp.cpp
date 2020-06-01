@@ -103,46 +103,64 @@ Token Interpreter::get_token()
     return Token(EOL, "");
 }
 
-void Interpreter::perform_mult_and_div(vector<Token>& created_tokens)
+void Interpreter::perform_mult_and_div(vector<Token>& tokens)
 {
     Token mul(MULT, '*'), div(DIV,  '/');   // TODO: pls optimize this
-    while (contains(created_tokens, mul) || contains(created_tokens, div))
+    while (contains(tokens, mul) || contains(tokens, div))
     {
-        for(unsigned long int i = 0; i < (unsigned int) created_tokens.size(); i++)
+        for(unsigned long int i = 0; i < (unsigned int) tokens.size(); i++)
         {
-            if (created_tokens[i].var_type == MULT)
+            if (tokens[i].var_type == MULT)
             {
-                eval_bin_op(created_tokens, MULT, i);
+                eval_bin_op(tokens, MULT, i);
                 break;
             }
 
-            if (created_tokens[i].var_type == DIV)
+            if (tokens[i].var_type == DIV)
             {
-                eval_bin_op(created_tokens, DIV, i);
+                eval_bin_op(tokens, DIV, i);
                 break;
             }
         }
     }
 }
 
-void Interpreter::perform_add_and_subtraction(vector<Token>& created_tokens)
+void Interpreter::perform_add_and_subtraction(vector<Token>& tokens)
 {
-    while (created_tokens.size() > 2)
+    while (tokens.size() > 2)
     {
-        for(unsigned long int i = 0; i < (unsigned int) created_tokens.size(); i++)
+        for(unsigned long int i = 0; i < (unsigned int) tokens.size(); i++)
         {
-            if (created_tokens[i].var_type == PLUS)
+            if (tokens[i].var_type == PLUS)
             {
-                eval_bin_op(created_tokens, PLUS, i);
+                eval_bin_op(tokens, PLUS, i);
                 break;
             }
 
-            if (created_tokens[i].var_type == MINUS)
+            if (tokens[i].var_type == MINUS)
             {
-                eval_bin_op(created_tokens, MINUS, i);
+                eval_bin_op(tokens, MINUS, i);
                 break;
             }
         }
+    }
+}
+
+void Interpreter::perform_unary_minus(vector<Token> &tokens)
+{
+    if(tokens[0].var_type == MINUS)
+    {
+        if(tokens[1].var_type != INTEGER)
+        {
+            cerr << "Syntax error.\n";
+            exit(0);
+        }
+        if(stoi(tokens[1].var_value) > 0)
+            tokens[1].var_value = "-" + tokens[1].var_value;
+
+
+        tokens.erase(tokens.begin());
+
     }
 }
 
@@ -159,6 +177,9 @@ Token Interpreter::expr()
         if(tok.var_type == EOL || tok.var_type == EOFile)
             break;
     }
+
+
+    perform_unary_minus(created_tokens);
 
         // Does multiplication and division operations, if they exist
     perform_mult_and_div(created_tokens);
