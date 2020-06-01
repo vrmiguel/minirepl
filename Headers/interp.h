@@ -29,7 +29,7 @@ class Interpreter
      * \param tokens The list of tokens to be operated on.
      * \param optype The variable to be found and replaced with its value.
      */
-    void replace_variable(vector<Token>& tokens, Variable var);
+    Token replace_variable(vector<Token>& tokens);
 public:
     /*!
      * \brief Constructor for an Interpreter.

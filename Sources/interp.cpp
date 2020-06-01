@@ -228,21 +228,27 @@ void Interpreter::perform_exp(vector<Token> &tokens)
     }
 }
 
-void Interpreter::replace_variable(vector<Token>& tokens, Variable var)
+Token Interpreter::replace_variable(vector<Token>& tokens)
 {
-    //cout << "here I am";
-    Token var_symbol (STRING, var.var_name);
-    while(contains(tokens, var_symbol))
-    {
+    //Token var_symbol (STRING, var.var_name);
         for(unsigned long int i = 0; i < (unsigned int) tokens.size(); i++)
         {
             if (tokens[i].var_type == STRING)
             {
-                tokens[i].var_type  = INTEGER;
-                tokens[i].var_value = var.var_value;
+                Variable var = var_find(tokens[i].var_value); // Looks for a variable with the given string value
+                if (!var.var_value.compare("not found"))  // Variable not found
+                {
+                    cerr << "Variable " << tokens[i].var_value << " is not defined.";
+                    return Token(EOL, "");
+                }
+                else{
+                        // The variable was found
+                    tokens[i].var_type  = INTEGER;
+                    tokens[i].var_value = var.var_value;   // so we'll replace it on the expression.
+                }
             }
         }
-    }
+    return Token(STRING, "success");
 }
 
 Token Interpreter::expr()
@@ -275,7 +281,6 @@ Token Interpreter::expr()
             }
             if(created_tokens.size() == 2)              // User wants to print a variable
                 return Token(INTEGER, res.var_value);   // so let's return the value of that variable
-            replace_variable(created_tokens, res);
         }
         else
         {
@@ -285,6 +290,13 @@ Token Interpreter::expr()
         created_tokens.erase(created_tokens.begin());
         created_tokens.erase(created_tokens.begin());
         }
+    }
+
+
+    Token response = replace_variable(created_tokens);
+    if (response.var_type == EOL)
+    {
+        return response;    // Expression uses an undefined variable.
     }
 
     perform_unary_minus(created_tokens);
