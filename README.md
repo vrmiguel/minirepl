@@ -21,19 +21,12 @@ miniREPL -- github.com/vrmiguel/minirepl
 4
 >>> b^a + a^b
 32
+>>> a = 2*b
+8
 ```
 
 The REPL currently only deals in integers and has no parenthesis support yet.
-Variables can be created with any combination of upper and lower-case characters, but currently cannot be updated.
-
-```C
->>> c = 2 ^ 4 - 7              // Works!
-9
->>> c + 2                      // Works
-11
->>> c = c + 4                  // Unimplemented
->>> c = 2                      // Unimplemented
-```
+Variables can be created with any combination of upper and lower-case characters.
 
 ## Building
 
