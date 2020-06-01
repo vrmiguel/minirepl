@@ -7,7 +7,9 @@ A work-in-progress small arithmetic REPL written in C++.
 An example follows:
 ```Python3
 miniREPL -- github.com/vrmiguel/minirepl
->>> -2^3 - 4*5
+>>> myVar = -2^3 - 4*5
+-28
+>>> myVar
 -28
 >>> 4*7^2
 196
@@ -15,8 +17,14 @@ miniREPL -- github.com/vrmiguel/minirepl
 42
 ```
 
-The REPL currently only deals in integers, has no parenthesis or variable support.
+The REPL currently only deals in integers and has no parenthesis support yet.
+Variables can be created with any combination of upper and lower-case characters, but can't be called into an arithmetic expression yet.
 
+```C
+>>> c = 2 ^ 4 - 7              // Works!
+9
+>>> 2 + c                      // Unimplemented.
+```
 
 ## Building
 
