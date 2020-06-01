@@ -28,9 +28,7 @@ Variables can be created with any combination of upper and lower-case characters
 
 ## Building
 
-Build with the following command:
-```qmake && make```
-and then run the REPL with `./minirepl`.
+Build running ```qmake && make``` and then run the REPL with `./minirepl`.
 
 The QMake version used here is 3.1.
 
