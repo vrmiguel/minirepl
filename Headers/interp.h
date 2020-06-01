@@ -2,6 +2,7 @@
 #define INTERP_H
 
 #include "token.h"
+#include "_os.h"
 
 class Interpreter
 {   // TODO: Singleton
@@ -23,6 +24,12 @@ class Interpreter
     void perform_unary_minus(vector<Token> & tokens);
     void perform_mult_and_div(vector<Token> &tokens);
     void perform_add_and_subtraction(vector<Token> &tokens);
+    /*!
+     * \brief Replaces a variable inside an arithmetic operation
+     * \param tokens The list of tokens to be operated on.
+     * \param optype The variable to be found and replaced with its value.
+     */
+    void replace_variable(vector<Token>& tokens, Variable var);
 public:
     /*!
      * \brief Constructor for an Interpreter.

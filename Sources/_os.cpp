@@ -61,5 +61,5 @@ Variable var_find(string var_name)
         if(!var_name.compare(var.var_name))
             return var;
     }
-    return Variable(var_name, "nan");
+    return Variable(var_name, "not found");
 }

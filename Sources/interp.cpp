@@ -228,6 +228,23 @@ void Interpreter::perform_exp(vector<Token> &tokens)
     }
 }
 
+void Interpreter::replace_variable(vector<Token>& tokens, Variable var)
+{
+    //cout << "here I am";
+    Token var_symbol (STRING, var.var_name);
+    while(contains(tokens, var_symbol))
+    {
+        for(unsigned long int i = 0; i < (unsigned int) tokens.size(); i++)
+        {
+            if (tokens[i].var_type == STRING)
+            {
+                tokens[i].var_type  = INTEGER;
+                tokens[i].var_value = var.var_value;
+            }
+        }
+    }
+}
+
 Token Interpreter::expr()
 {
     vector<Token> created_tokens;
@@ -250,22 +267,24 @@ Token Interpreter::expr()
             // Verifies if there was an attribution of value
         if (created_tokens[1].var_type != ATTRIB)
         {
-            if(created_tokens.size() > 2)
-            {
-                cerr << "Syntax error. Missing \'=\'\n";
-                return Token(EOL, "");
-            }
             Variable res = var_find(created_tokens[0].var_value);
-            if (!res.var_value.compare("nan"))  // Variable not found
+            if (!res.var_value.compare("not found"))  // Variable not found
             {
-                cerr << "Variable " << var_name << " is not defined.\n";
+                cerr << "Variable " << created_tokens[0].var_value << " is not defined.";
                 return Token(EOL, "");
             }
-            return Token(INTEGER, res.var_value);   // Variable found
+            if(created_tokens.size() == 2)              // User wants to print a variable
+                return Token(INTEGER, res.var_value);   // so let's return the value of that variable
+            replace_variable(created_tokens, res);
         }
+        else
+        {
+            // In this case, there was attribution. We'll calculate the value of the expression and then
+            // attribute this value to the given variable later on.
         var_name = created_tokens[0].var_value;
         created_tokens.erase(created_tokens.begin());
         created_tokens.erase(created_tokens.begin());
+        }
     }
 
     perform_unary_minus(created_tokens);
@@ -279,7 +298,8 @@ Token Interpreter::expr()
 
     if (!var_name.empty())
     {
+        // var_name isn't empty, so we'll create (or TODO: update) a variable with that value.
         var_list.push_back(Variable(var_name, created_tokens[0].var_value));
     }
-    return created_tokens[0]; // placeholder
+    return created_tokens[0];
 }
