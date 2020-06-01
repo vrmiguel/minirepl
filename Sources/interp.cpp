@@ -1,6 +1,7 @@
 #include "Headers/interp.h"
 #include "Headers/_os.h"
 #include <algorithm>
+#include <cmath>
 
 using std::stoi;
 using std::to_string;
@@ -32,6 +33,8 @@ void Interpreter::eval_bin_op(vector<Token> &tokens, int optype, int index)
                 tokens[index-1].var_value = to_string(left_oper * right_oper);
             else if (optype == DIV)
                 tokens[index-1].var_value = to_string(left_oper / right_oper);
+            else if (optype == EXP)
+                tokens[index-1].var_value = to_string((int) pow(left_oper, right_oper));
             tokens.erase(tokens.begin() + index);
             tokens.erase(tokens.begin() + index);
         }
@@ -55,6 +58,23 @@ Token Interpreter::get_token()
         pos++;
         return Token(SPACE, cur_char);
     }
+
+    if (cur_char == '^')
+    {
+        pos++;
+        return Token(EXP, cur_char);
+    }
+//    if (cur_char == '(')
+//    {
+//        pos++;
+//        return Token(OPENPAR, cur_char);
+//    }
+
+//    if (cur_char == ')')
+//    {
+//        pos++;
+//        return Token(CLOSEPAR, cur_char);
+//    }
 
     if (isdigit(cur_char))
     {
@@ -158,9 +178,23 @@ void Interpreter::perform_unary_minus(vector<Token> &tokens)
         if(stoi(tokens[1].var_value) > 0)
             tokens[1].var_value = "-" + tokens[1].var_value;
 
-
         tokens.erase(tokens.begin());
+    }
+}
 
+void Interpreter::perform_exp(vector<Token> &tokens)
+{
+    Token exp(EXP, '^');
+    while (contains(tokens, exp))
+    {
+        for(unsigned long int i = 0; i < (unsigned int) tokens.size(); i++)
+        {
+            if (tokens[i].var_type == EXP)
+            {
+                eval_bin_op(tokens, EXP, i);
+                break;
+            }
+        }
     }
 }
 
@@ -180,6 +214,7 @@ Token Interpreter::expr()
 
 
     perform_unary_minus(created_tokens);
+    perform_exp(created_tokens);
 
         // Does multiplication and division operations, if they exist
     perform_mult_and_div(created_tokens);

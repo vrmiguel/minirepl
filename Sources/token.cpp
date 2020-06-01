@@ -39,7 +39,7 @@ std::ostream& operator<<(std::ostream &strm, const Token &tok)
         break;
 
         default:
-            vartype ="UNKNOWN";    // Control really shouldn't reach this point
+            vartype = "UNKNOWN";    // Control really shouldn't reach this point
         break;
     }
     return strm << "Token(" << vartype << ", " << tok.var_value << ")";

@@ -19,6 +19,7 @@ class Interpreter
      * \param index  The index where the operator is.
      */
     void eval_bin_op(vector<Token> &tokens, int optype, int index);
+    void perform_exp(vector<Token>& tokens);
     void perform_unary_minus(vector<Token> & tokens);
     void perform_mult_and_div(vector<Token> &tokens);
     void perform_add_and_subtraction(vector<Token> &tokens);
