@@ -1,6 +1,6 @@
 # miniREPL
 
-A work-in-progress small arithmetic REPL written in C++.
+A work-in-progress small arithmetic REPL written in pure C++11.
 
 ## Usage
 
@@ -30,5 +30,9 @@ Variables can be created with any combination of upper and lower-case characters
 
 Build with the following command:
 ```qmake && make```
+
+The QMake version used here is 3.1.
+A compiler supporting at least C++11 is needed.
+No extra dependencies are needed.
 
 and then run the REPL with `./minirepl`.
