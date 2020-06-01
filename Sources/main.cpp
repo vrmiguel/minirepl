@@ -7,7 +7,7 @@ int main(int argc, char ** argv)
     cout << "miniREPL -- github.com/vrmiguel/minirepl\n";
     CLIInputs(argc, argv);
 
-    SignalHandler sighandler;       // Defined in _os.h
+    SignalHandler sighandler;
 
     for (;;)
     {
@@ -19,6 +19,9 @@ int main(int argc, char ** argv)
             cout << "\nEOF found. Exiting.\n";
             return 0;
         }
+        if(line.empty())    // Checks for carriage return.
+            continue;
+
         Interpreter interp (line);
         Token ans = interp.expr();
         cout << ans.var_value << '\n';

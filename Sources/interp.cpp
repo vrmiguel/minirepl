@@ -99,7 +99,7 @@ Token Interpreter::get_token()
         return Token(DIV, cur_char);
     }
 
-    cerr << cur_char << " is an invalid token.\n";
+    cerr << cur_char << " is an invalid token.";
     return Token(EOL, "");
 }
 
