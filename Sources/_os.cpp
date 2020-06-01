@@ -54,12 +54,12 @@ Variable::Variable(string var_name, string var_value)
     this->var_value = var_value;
 }
 
-Variable var_find(string var_name)
+int var_find(string var_name)
 {
-    for(Variable var : var_list)
+    for(unsigned int i = 0; i < (unsigned) var_list.size(); i++)
     {
-        if(!var_name.compare(var.var_name))
-            return var;
+        if(!var_list[i].var_name.compare(var_name))
+            return i;
     }
-    return Variable(var_name, "not found");
+    return -1;
 }

@@ -235,8 +235,8 @@ Token Interpreter::replace_variable(vector<Token>& tokens)
         {
             if (tokens[i].var_type == STRING)
             {
-                Variable var = var_find(tokens[i].var_value); // Looks for a variable with the given string value
-                if (!var.var_value.compare("not found"))  // Variable not found
+                int index = var_find(tokens[i].var_value); // Looks for a variable with the given string value
+                if (index == -1)  // Variable not found
                 {
                     cerr << "Variable " << tokens[i].var_value << " is not defined.";
                     return Token(EOL, "");
@@ -244,7 +244,7 @@ Token Interpreter::replace_variable(vector<Token>& tokens)
                 else{
                         // The variable was found
                     tokens[i].var_type  = INTEGER;
-                    tokens[i].var_value = var.var_value;   // so we'll replace it on the expression.
+                    tokens[i].var_value = var_list[index].var_value;   // so we'll replace it on the expression.
                 }
             }
         }
@@ -258,7 +258,7 @@ Token Interpreter::expr()
 
     for(;;)
     {
-        Token tok = get_token();
+        Token tok = get_token();           // Iterates through Interpreter::text and saves all tokens (except whitespaces)
         if(is_verbose)
             cout << tok << ' ';
         if (tok.var_type != SPACE)
@@ -273,31 +273,38 @@ Token Interpreter::expr()
             // Verifies if there was an attribution of value
         if (created_tokens[1].var_type != ATTRIB)
         {
-            Variable res = var_find(created_tokens[0].var_value);
-            if (!res.var_value.compare("not found"))  // Variable not found
-            {
+            int index = var_find(created_tokens[0].var_value);
+            if (index == -1)
+            {                                               // Variable not found
                 cerr << "Variable " << created_tokens[0].var_value << " is not defined.";
                 return Token(EOL, "");
             }
-            if(created_tokens.size() == 2)              // User wants to print a variable
-                return Token(INTEGER, res.var_value);   // so let's return the value of that variable
+            if(created_tokens.size() == 2)              // User wants to print a variable ..
+                return Token(INTEGER, var_list[index].var_value);   // .. so let's return the value of that variable
         }
         else
         {
             // In this case, there was attribution. We'll calculate the value of the expression and then
             // attribute this value to the given variable later on.
+        if (created_tokens.size() == 3)
+        {
+            cerr << "Variable without a value.";
+            return Token(EOL, "");
+        }
         var_name = created_tokens[0].var_value;
         created_tokens.erase(created_tokens.begin());
         created_tokens.erase(created_tokens.begin());
         }
     }
 
-
+        // Verifies if there are variables inside of the expression
+        // If there are, it replaces the variables with their contents
+        // If the expression uses undefined variables, a warning is sent ..
+        // .. and an EOL token is returned.
     Token response = replace_variable(created_tokens);
     if (response.var_type == EOL)
-    {
         return response;    // Expression uses an undefined variable.
-    }
+
 
     perform_unary_minus(created_tokens);
     perform_exp(created_tokens);
@@ -310,8 +317,15 @@ Token Interpreter::expr()
 
     if (!var_name.empty())
     {
-        // var_name isn't empty, so we'll create (or TODO: update) a variable with that value.
-        var_list.push_back(Variable(var_name, created_tokens[0].var_value));
+        // var_name isn't empty, so we'll create (or TODO: update) a variable with that value
+        int index = var_find(var_name);
+        if (index == -1)    // Variable didn't exist, so we'll create it.
+            var_list.push_back(Variable(var_name, created_tokens[0].var_value));
+        else
+        {               // Variable already exists, so we need to update its value.
+            var_list[index].var_value = created_tokens[0].var_value;
+        }
+
     }
     return created_tokens[0];
 }

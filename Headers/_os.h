@@ -11,6 +11,10 @@ using std::string;
 //bool no_hangup;
 extern bool is_verbose;
 
+/*!
+ * \class SignalHandler
+ * \brief Handles SIGHUP and SIGINT signals.
+ */
 class SignalHandler
 {
     struct sigaction signal_action;
@@ -21,6 +25,10 @@ public:
     SignalHandler();
 };
 
+/*!
+ * \class CLIInputs
+ * \brief Handler for command-line arguments.
+ */
 class CLIInputs
 {
 public:
@@ -32,6 +40,10 @@ public:
     CLIInputs(int argc, char ** argv);
 };
 
+/*!
+ * \class Variable
+ * \brief Holds a REPL variable.
+ */
 class Variable
 {
 public:
@@ -41,6 +53,10 @@ public:
 };
 
 extern std::vector<Variable> var_list;
-Variable var_find(string var_name);
+/*!
+ * \brief Searches for a variable inside of var_list.
+ * \param var_name The name of the variable being searched for.
+ */
+int var_find(string var_name);
 
 #endif // _OS_H

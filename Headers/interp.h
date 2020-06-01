@@ -3,7 +3,14 @@
 
 #include "token.h"
 #include "_os.h"
-
+/*!
+ * \class Interpreter
+ * \brief The REPL's interpreter.
+ *
+ *  Reads the expressions from all lines given from std::cin, evaluates them
+ *  through the several private methods below, and returns a result Token.
+ *
+ */
 class Interpreter
 {   // TODO: Singleton
     string text;
