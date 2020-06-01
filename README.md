@@ -15,6 +15,12 @@ miniREPL -- github.com/vrmiguel/minirepl
 196
 >>> 6*8 - 2*3
 42
+>>> a = 2
+2
+>>> b=a^a
+4
+>>> b^a + a^b
+32
 ```
 
 The REPL currently only deals in integers and has no parenthesis support yet.
