@@ -14,12 +14,20 @@ class SignalHandler
 {
     struct sigaction signal_action;
 public:
+    /*!
+     * \brief Constructor for SignalHandler. Handles SIGHUP and SIGINT signals.
+     */
     SignalHandler();
 };
 
 class CLIInputs
 {
 public:
+    /*!
+     * \brief Constructor for CLIInputs.
+     * \param argc Command-line argument count.
+     * \param argv Array of strings that representing the command-line argument given.
+     */
     CLIInputs(int argc, char ** argv);
 };
 

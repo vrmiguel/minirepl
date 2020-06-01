@@ -16,7 +16,7 @@ Interpreter::Interpreter(string text)
     this->pos       = 0;
 }
 
-void Interpreter::eval_arith(vector<Token> &tokens, int optype, int index)
+void Interpreter::eval_bin_op(vector<Token> &tokens, int optype, int index)
 {
     try
     {
@@ -103,6 +103,49 @@ Token Interpreter::get_token()
     return Token(EOL, "");
 }
 
+void Interpreter::perform_mult_and_div(vector<Token>& created_tokens)
+{
+    Token mul(MULT, '*'), div(DIV,  '/');   // TODO: pls optimize this
+    while (contains(created_tokens, mul) || contains(created_tokens, div))
+    {
+        for(unsigned long int i = 0; i < (unsigned int) created_tokens.size(); i++)
+        {
+            if (created_tokens[i].var_type == MULT)
+            {
+                eval_bin_op(created_tokens, MULT, i);
+                break;
+            }
+
+            if (created_tokens[i].var_type == DIV)
+            {
+                eval_bin_op(created_tokens, DIV, i);
+                break;
+            }
+        }
+    }
+}
+
+void Interpreter::perform_add_and_subtraction(vector<Token>& created_tokens)
+{
+    while (created_tokens.size() > 2)
+    {
+        for(unsigned long int i = 0; i < (unsigned int) created_tokens.size(); i++)
+        {
+            if (created_tokens[i].var_type == PLUS)
+            {
+                eval_bin_op(created_tokens, PLUS, i);
+                break;
+            }
+
+            if (created_tokens[i].var_type == MINUS)
+            {
+                eval_bin_op(created_tokens, MINUS, i);
+                break;
+            }
+        }
+    }
+}
+
 Token Interpreter::expr()
 {
     vector<Token> created_tokens;
@@ -117,42 +160,12 @@ Token Interpreter::expr()
             break;
     }
 
-    Token mul(MULT, '*'), div(DIV,  '/');   // TODO: pls optimize this
-    while (contains(created_tokens, mul) || contains(created_tokens, div))
-    {
-        for(unsigned long int i = 0; i < (unsigned int) created_tokens.size(); i++)
-        {
-            if (created_tokens[i].var_type == MULT)
-            {
-                eval_arith(created_tokens, MULT, i);
-                break;
-            }
+        // Does multiplication and division operations, if they exist
+    perform_mult_and_div(created_tokens);
 
-            if (created_tokens[i].var_type == DIV)
-            {
-                eval_arith(created_tokens, DIV, i);
-                break;
-            }
-        }
-    }
+        // Does addition and subtraction operations, if they exist
+    perform_add_and_subtraction(created_tokens);
 
-    while (created_tokens.size() > 2)
-    {
-        for(unsigned long int i = 0; i < (unsigned int) created_tokens.size(); i++)
-        {
-            if (created_tokens[i].var_type == PLUS)
-            {
-                eval_arith(created_tokens, PLUS, i);
-                break;
-            }
-
-            if (created_tokens[i].var_type == MINUS)
-            {
-                eval_arith(created_tokens, MINUS, i);
-                break;
-            }
-        }
-    }
 
     return created_tokens[0]; // placeholder
 }
