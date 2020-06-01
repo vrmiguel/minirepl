@@ -7,7 +7,7 @@ using std::to_string;
 
 inline bool isdigit(char c)
 {
-     return (c > 47 && c < 58);
+    return (c > 47 && c < 58);
 }
 
 Interpreter::Interpreter(string text)
@@ -37,6 +37,7 @@ void Interpreter::eval_arith(vector<Token> &tokens, int optype, int index)
         }
     } catch (const std::exception& e) {
         cerr << "Syntax error.\n" << e.what() << '\n';
+        exit(2);
     }
 }
 
@@ -57,15 +58,12 @@ Token Interpreter::get_token()
 
     if (isdigit(cur_char))
     {
-        string intval (cur_char, 1);
+        string intval (1, cur_char);
         try
         {
             while(isdigit(text[pos+1]))
-            {
-                intval = intval + text[pos+1];
-                pos++;
-            }
-            cout << intval;
+                intval = intval + text[++pos];
+            pos++;
             return Token(INTEGER, intval);
         }
         catch (const std::out_of_range& oor)
@@ -75,17 +73,6 @@ Token Interpreter::get_token()
             return Token(INTEGER, intval);
         }
     }
-
-//    if cur_char.isdigit():
-//        try:
-//            while text[self.pos+1].isdigit():
-//                cur_char += text[self.pos+1]
-//                self.inc()
-//            self.inc()
-//            return Token(INTEGER, int(cur_char))
-//        except IndexError:
-//            self.inc()
-//            return Token(INTEGER, int(cur_char))
 
     if (cur_char == '+')
     {
