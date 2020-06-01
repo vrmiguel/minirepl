@@ -6,13 +6,13 @@ void signal_handler(int s)
 {
     if (s==SIGINT)
     {
-        cout << "\nSIGINT (Ctrl+C) received. Code " << s << ".\n";
+        cout << "\nSIGINT (Ctrl+C) received. Code " << s << ". Exiting.\n";
         exit(s);
     }
 
     if (s==SIGHUP)
     {
-        cout << "\nSIGHUP received. Code " << s << ".\n";
+        cout << "\nSIGHUP received. Code " << s << ". Exiting.\n";
         exit(s);
     }
 }

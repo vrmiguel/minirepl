@@ -14,6 +14,11 @@ int main(int argc, char ** argv)
         string line;
         cout << ">>> ";
         std::getline(cin, line);
+        if (cin.eof())
+        {
+            cout << "\nEOF found. Exiting.\n";
+            return 0;
+        }
         Interpreter interp (line);
         Token ans = interp.expr();
         cout << ans.var_value << '\n';
