@@ -35,8 +35,8 @@ void Interpreter::eval_arith(vector<Token> &tokens, int optype, int index)
             tokens.erase(tokens.begin() + index);
             tokens.erase(tokens.begin() + index);
         }
-    } catch (const std::exception&) {
-        cerr << "Syntax error.\n";
+    } catch (const std::exception& e) {
+        cerr << "Syntax error.\n" << e.what() << '\n';
     }
 }
 
@@ -55,12 +55,37 @@ Token Interpreter::get_token()
         return Token(SPACE, cur_char);
     }
 
-
     if (isdigit(cur_char))
     {
-        pos++;
-        return Token(INTEGER, cur_char);
+        string intval (cur_char, 1);
+        try
+        {
+            while(isdigit(text[pos+1]))
+            {
+                intval = intval + text[pos+1];
+                pos++;
+            }
+            cout << intval;
+            return Token(INTEGER, intval);
+        }
+        catch (const std::out_of_range& oor)
+        {
+            cout << "Exception " << oor.what() << " catched.";
+            pos++;
+            return Token(INTEGER, intval);
+        }
     }
+
+//    if cur_char.isdigit():
+//        try:
+//            while text[self.pos+1].isdigit():
+//                cur_char += text[self.pos+1]
+//                self.inc()
+//            self.inc()
+//            return Token(INTEGER, int(cur_char))
+//        except IndexError:
+//            self.inc()
+//            return Token(INTEGER, int(cur_char))
 
     if (cur_char == '+')
     {
