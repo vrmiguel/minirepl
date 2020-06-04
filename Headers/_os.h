@@ -30,6 +30,10 @@
 #include <iostream>
 #include <vector>
 
+    // Travis CI really wants these
+#include <cstdlib>
+#include <cstdio>
+
 using std::cout;
 using std::string;
 
