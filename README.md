@@ -30,11 +30,17 @@ Variables can be created with any combination of upper and lower-case characters
 
 ## Building
 
-Build running ```qmake && make``` and then run the REPL with `./minirepl`.
+### With QMake
+
+On the root folder, run ```qmake && make```. 
+
+Start the REPL with `./minirepl`.
 
 The QMake version used here is 3.1.
+A compiler supporting at least C++11 is needed, with no extra dependencies
 
-A compiler supporting at least C++11 is needed.
+### A more lengthy way
 
-No extra dependencies are needed.
+On the root folder, run ```g++ -c -pipe -std=gnu++11 -Wall -W -fPIC -I. Sources/main.cpp Sources/interp.cpp Sources/_os.cpp Sources/token.cpp```, followed by ```g++ -Wl,-O1 -o minirepl main.o interp.o _os.o token.o```.
 
+The `-std=gnu++11` flag can be freely switched to `-std=c++11` if so wished.
