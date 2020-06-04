@@ -1,0 +1,21 @@
+version: v1.0
+name: miniREPL
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+blocks:
+  - name: Build miniREPL
+    task:
+      jobs:
+        - name: Build miniREPL with G++ 7 and 8
+          matrix:
+            - env_var: GPP_VERSION
+              values:
+                - '7'
+                - '8'
+          commands:
+            - checkout
+            - sem-version cpp $GPP_VERSION
+            - g++ -c -pipe -std=gnu++11 -Wall -W -fPIC -I. Sources/main.cpp Sources/interp.cpp Sources/_os.cpp Sources/token.cpp
+            - 'g++ -Wl,-O1 -o minirepl main.o interp.o _os.o token.o'
