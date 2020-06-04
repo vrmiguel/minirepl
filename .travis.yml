@@ -1,3 +1,4 @@
 script:
- - qmake 
+ - qmake -project
+ - qmake minirepl.pro
  - make
