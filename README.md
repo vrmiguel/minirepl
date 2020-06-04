@@ -1,4 +1,4 @@
-# miniREPL [![Codacy Badge](https://app.codacy.com/project/badge/Grade/1ffc16cdfeca4a53b37e97a8a9a8957b)](https://www.codacy.com/manual/lemao.vrm07/minirepl?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=vrmiguel/minirepl&amp;utm_campaign=Badge_Grade)
+# miniREPL [![Codacy Badge](https://app.codacy.com/project/badge/Grade/1ffc16cdfeca4a53b37e97a8a9a8957b)](https://www.codacy.com/manual/lemao.vrm07/minirepl?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=vrmiguel/minirepl&amp;utm_campaign=Badge_Grade)  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A work-in-progress small arithmetic REPL written in pure C++11.
 
