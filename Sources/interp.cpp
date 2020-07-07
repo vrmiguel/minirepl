@@ -280,7 +280,6 @@ Token Interpreter::expr()
 {
     vector<Token> created_tokens;
     string var_name;
-    fprintf(stderr, "Check 1\n");
 
     for(;;)
     {
@@ -322,7 +321,6 @@ Token Interpreter::expr()
         created_tokens.erase(created_tokens.begin());
         }
     }
-    fprintf(stderr, "Check 2\n");
 
         // Verifies if there are variables inside of the expression
         // If there are, it replaces the variables with their contents
@@ -331,7 +329,6 @@ Token Interpreter::expr()
     Token response = replace_variable(created_tokens);
     if (response.var_type == EOL)
         return response;    // Expression uses an undefined variable.
-    fprintf(stderr, "Check 3\n");
 
     perform_unary_minus(created_tokens);
     perform_exp(created_tokens);
@@ -342,15 +339,10 @@ Token Interpreter::expr()
         // Does addition and subtraction operations, if they exist
     perform_add_and_subtraction(created_tokens);
 
-    fprintf(stderr, "Check 4\n");
-
     if (!var_name.empty())
     {
         // var_name isn't empty, so we'll create a variable with that value
-
-        fprintf(stderr, "Check 5\n");
         findres_t res = var_find(var_name);
-        fprintf(stderr, "Check 6\n");
         if (!res.was_found)    // Variable didn't exist, so we'll create it.
         {
            var_list[var_name] = created_tokens[0].var_value;
@@ -359,7 +351,6 @@ Token Interpreter::expr()
         {               // Variable already exists, so we need to update its value.
             var_list[var_name] = created_tokens[0].var_value;
         }
-        fprintf(stderr, "Check 7\n");
     }
     return created_tokens[0];
 }
