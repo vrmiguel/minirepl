@@ -17,5 +17,5 @@ blocks:
           commands:
             - checkout
             - sem-version cpp $GPP_VERSION
-            - g++ -c -pipe -std=gnu++11 -Wall -W -fPIC -I. Sources/main.cpp Sources/interp.cpp Sources/_os.cpp Sources/token.cpp
-            - 'g++ -Wl,-O1 -o minirepl main.o interp.o _os.o token.o'
+            - g++ -c -pipe -std=gnu++11 -Wall -W -fPIC -I. Sources/main.cpp Sources/interp.cpp Sources/os.cpp Sources/token.cpp
+            - 'g++ -Wl,-O1 -o minirepl main.o interp.o os.o token.o'
