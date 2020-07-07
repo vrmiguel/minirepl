@@ -23,16 +23,13 @@
  * SOFTWARE.
  */
 
-#ifndef _OS_H
-#define _OS_H
+#ifndef _MINIREPL_OS_H
+#define _MINIREPL_OS_H
 #include <csignal>
 #include <string>
 #include <iostream>
 #include <vector>
-
-    // Travis CI really wants these
-#include <cstdlib>
-#include <cstdio>
+#include <unordered_map>
 
 using std::cout;
 using std::string;
@@ -69,23 +66,32 @@ public:
     CLIInputs(int argc, char ** argv);
 };
 
+
+/*** Variables ***/
 /*!
  * \class Variable
  * \brief Holds a REPL variable.
  */
-class Variable
-{
-public:
-    string var_name;
-    string var_value;
-    Variable(string var_name, string var_value);
+//class Variable
+//{
+//public:
+//    string var_name;
+//    string var_value;
+//    Variable(string var_name, string var_value);
+//};
+
+struct findres {
+    std::string var;
+    bool        was_found;
 };
 
-extern std::vector<Variable> var_list;
+typedef findres findres_t;
+
+extern std::unordered_map<std::string, std::string> var_list;
 /*!
  * \brief Searches for a variable inside of var_list.
  * \param var_name The name of the variable being searched for.
  */
-int var_find(string var_name);
+findres_t var_find(string var_name);
 
-#endif // _OS_H
+#endif // _MINIREPL_OS_H

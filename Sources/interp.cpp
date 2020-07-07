@@ -24,7 +24,7 @@
  */
 
 #include "Headers/interp.h"
-#include "Headers/_os.h"
+#include "Headers/os.h"
 #include <algorithm>
 #include <cmath>
 
@@ -260,8 +260,8 @@ Token Interpreter::replace_variable(vector<Token>& tokens)
         {
             if (tokens[i].var_type == STRING)
             {
-                int index = var_find(tokens[i].var_value); // Looks for a variable with the given string value
-                if (index == -1)  // Variable not found
+                findres_t res = var_find(tokens[i].var_value); // Looks for a variable with the given string value
+                if (!res.was_found)  // Variable not found
                 {
                     cerr << "Variable " << tokens[i].var_value << " is not defined.";
                     return Token(EOL, "");
@@ -269,7 +269,7 @@ Token Interpreter::replace_variable(vector<Token>& tokens)
                 else{
                         // The variable was found
                     tokens[i].var_type  = INTEGER;
-                    tokens[i].var_value = var_list[index].var_value;   // so we'll replace it on the expression.
+                    tokens[i].var_value = res.var;   // so we'll replace it on the expression.
                 }
             }
         }
@@ -280,6 +280,7 @@ Token Interpreter::expr()
 {
     vector<Token> created_tokens;
     string var_name;
+    fprintf(stderr, "Check 1\n");
 
     for(;;)
     {
@@ -298,14 +299,14 @@ Token Interpreter::expr()
             // Verifies if there was an attribution of value
         if (created_tokens[1].var_type != ATTRIB)
         {
-            int index = var_find(created_tokens[0].var_value);
-            if (index == -1)
+            findres_t res = var_find(created_tokens[0].var_value);
+            if (!res.was_found)
             {                                               // Variable not found
                 cerr << "Variable " << created_tokens[0].var_value << " is not defined.";
                 return Token(EOL, "");
             }
             if(created_tokens.size() == 2)              // User wants to print a variable ..
-                return Token(INTEGER, var_list[index].var_value);   // .. so let's return the value of that variable
+                return Token(INTEGER, res.var);         // .. so let's return the value of that variable
         }
         else
         {
@@ -321,6 +322,7 @@ Token Interpreter::expr()
         created_tokens.erase(created_tokens.begin());
         }
     }
+    fprintf(stderr, "Check 2\n");
 
         // Verifies if there are variables inside of the expression
         // If there are, it replaces the variables with their contents
@@ -329,7 +331,7 @@ Token Interpreter::expr()
     Token response = replace_variable(created_tokens);
     if (response.var_type == EOL)
         return response;    // Expression uses an undefined variable.
-
+    fprintf(stderr, "Check 3\n");
 
     perform_unary_minus(created_tokens);
     perform_exp(created_tokens);
@@ -340,17 +342,24 @@ Token Interpreter::expr()
         // Does addition and subtraction operations, if they exist
     perform_add_and_subtraction(created_tokens);
 
+    fprintf(stderr, "Check 4\n");
+
     if (!var_name.empty())
     {
-        // var_name isn't empty, so we'll create (or TODO: update) a variable with that value
-        int index = var_find(var_name);
-        if (index == -1)    // Variable didn't exist, so we'll create it.
-            var_list.push_back(Variable(var_name, created_tokens[0].var_value));
+        // var_name isn't empty, so we'll create a variable with that value
+
+        fprintf(stderr, "Check 5\n");
+        findres_t res = var_find(var_name);
+        fprintf(stderr, "Check 6\n");
+        if (!res.was_found)    // Variable didn't exist, so we'll create it.
+        {
+           var_list[var_name] = created_tokens[0].var_value;
+        }
         else
         {               // Variable already exists, so we need to update its value.
-            var_list[index].var_value = created_tokens[0].var_value;
+            var_list[var_name] = created_tokens[0].var_value;
         }
-
+        fprintf(stderr, "Check 7\n");
     }
     return created_tokens[0];
 }

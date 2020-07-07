@@ -23,10 +23,10 @@
  * SOFTWARE.
  */
 
-#include "Headers/_os.h"
+#include "Headers/os.h"
 
 bool is_verbose;
-std::vector<Variable> var_list;
+std::unordered_map<std::string, std::string> var_list;  // extern variable
 
 void signal_handler(int s)
 {
@@ -73,18 +73,11 @@ CLIInputs::CLIInputs(int argc, char **argv)
     }
 }
 
-Variable::Variable(string var_name, string var_value)
+findres_t var_find(string var_name)
 {
-    this->var_name  = var_name;
-    this->var_value = var_value;
-}
-
-int var_find(string var_name)
-{
-    for(unsigned int i = 0; i < (unsigned) var_list.size(); i++)
-    {
-        if(!var_list[i].var_name.compare(var_name))
-            return i;
+    auto res = var_list.find(var_name);
+    if (res != var_list.end()) {
+        return {res->second, true};
     }
-    return -1;
+    return {"unused", false};   // In case the variable was not found.
 }

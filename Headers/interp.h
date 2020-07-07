@@ -27,7 +27,7 @@
 #define INTERP_H
 
 #include "token.h"
-#include "_os.h"
+#include "os.h"
 /*!
  * \class Interpreter
  * \brief The REPL's interpreter.
