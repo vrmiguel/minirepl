@@ -1,4 +1,4 @@
-# miniREPL [![Codacy Badge](https://app.codacy.com/project/badge/Grade/1ffc16cdfeca4a53b37e97a8a9a8957b)](https://www.codacy.com/manual/lemao.vrm07/minirepl?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=vrmiguel/minirepl&amp;utm_campaign=Badge_Grade)  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+# miniREPL [![Codacy Badge](https://app.codacy.com/project/badge/Grade/1ffc16cdfeca4a53b37e97a8a9a8957b)](https://www.codacy.com/manual/lemao.vrm07/minirepl?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=vrmiguel/minirepl&amp;utm_campaign=Badge_Grade)  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Semaphore Build](https://vrmiguel.semaphoreci.com/badges/minirepl/branches/master.svg?style=shields)](https://vrmiguel.semaphoreci.com/projects/minirepl/) 
 
 A work-in-progress small arithmetic REPL written in pure C++11.
 
@@ -39,7 +39,7 @@ Start the REPL with `./minirepl`.
 The QMake version used here is 3.1.
 A compiler supporting at least C++11 is needed, with no extra dependencies
 
-### A more lengthy way
+### A lengthier way
 
 On the root folder, run ```g++ -c -pipe -std=gnu++11 -Wall -W -fPIC -I. Sources/main.cpp Sources/interp.cpp Sources/_os.cpp Sources/token.cpp```, followed by ```g++ -Wl,-O1 -o minirepl main.o interp.o _os.o token.o```.
 
